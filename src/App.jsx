@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import Header from './components/Headers';
 import Footer from './components/Footer';
@@ -9,7 +9,15 @@ import { db } from './data/db';
 function App() {
 
   const [data] = useState(db);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+  const cartLocalStorage = localStorage.getItem('cart');
+
+  return cartLocalStorage ? JSON.parse(cartLocalStorage) : [];
+  });
+
+  useEffect(() => {
+  localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
 
   function addToCart(item) {
      console.log("Guitarra seleccionada:", item);
@@ -78,6 +86,11 @@ function App() {
 
     setCart(updateQuantity);
   }
+  function removeFromCart(id) {
+  setCart(prevCart =>
+    prevCart.filter(guitar => guitar.id !== id)
+  );
+}
 
   function clearCart() {
     setCart([]);
@@ -91,6 +104,7 @@ function App() {
         increaseQuantity={increaseQuantity}
         decreaseQuantity={decreaseQuantity}
         clearCart={clearCart}
+        
       />
 
       <main className="container-xl mt-5">

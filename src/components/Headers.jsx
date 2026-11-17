@@ -1,5 +1,7 @@
 
-function Header({ cart }) {
+function Header({ cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart }) {
+  
+  
 
   const isEmpty = () => cart.length === 0;
 
@@ -74,6 +76,7 @@ function Header({ cart }) {
                             <button
                               type="button"
                               className="btn btn-dark"
+                              onClick={() => decreaseQuantity(guitar.id)}
                             >
                               -
                             </button>
@@ -83,6 +86,7 @@ function Header({ cart }) {
                             <button
                               type="button"
                               className="btn btn-dark"
+                              onClick={() => increaseQuantity(guitar.id)}
                             >
                               +
                             </button>
@@ -93,6 +97,7 @@ function Header({ cart }) {
                             <button
                               className="btn btn-danger"
                               type="button"
+                              onClick={() => removeFromCart(guitar.id)}
                             >
                               X
                             </button>
@@ -113,7 +118,9 @@ function Header({ cart }) {
                   <span className="fw-bold">$0</span>
                 </p>
 
-                <button className="btn btn-dark w-100 mt-3 p-2">
+                <button className="btn btn-dark w-100 mt-3 p-2"
+                onClick={clearCart}
+                >
                   Vaciar Carrito
                 </button>
 
